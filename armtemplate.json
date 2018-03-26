@@ -458,7 +458,7 @@
             "scale": null,
             "properties": {
                 "rights": [
-                    "Send"
+                    "Listen"
                 ]
             },
             "dependsOn": [
