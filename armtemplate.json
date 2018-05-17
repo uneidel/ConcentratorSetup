@@ -53,7 +53,9 @@
         "atConnectionName": "azuretables",
         "authRuleResourceId": "[resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', parameters('ServiceBus_name'), variables('sasKeyName'))]",
         "queueAuthRuleResourceId": "[resourceId('Microsoft.ServiceBus/namespaces/queues/authorizationRules', parameters('ServiceBus_name'),parameters('SBQueue_name'), variables('authRulesName'))]",
-        "sbVersion": "2017-04-01"
+        "sbVersion": "2017-04-01",
+        "repoUrl": "https://github.com/uneidel/iotminidash",
+        "branch": "master"
     },
     "resources": [
         {
@@ -395,8 +397,25 @@
                 "hostNamesDisabled": false,
                 "containerSize": 0,
                 "dailyMemoryTimeQuota": 0,
-                "cloningInfo": null
+                "cloningInfo": null,
+      
             },
+            
+      "resources": [
+        {
+          "apiVersion": "2015-08-01",
+          "name": "web",
+          "type": "sourcecontrols",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites', parameters('WebApp_name'))]"
+          ],
+          "properties": {
+            "RepoUrl": "[variables('repoURL')]",
+            "branch": "[variables('branch')]",
+            "IsManualIntegration": true
+          }
+        }
+      ], 
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts', parameters('StorageAccount_name'))]",
                 "[resourceId('Microsoft.ServiceBus/namespaces', parameters('ServiceBus_name'))]"
@@ -458,7 +477,8 @@
             "scale": null,
             "properties": {
                 "rights": [
-                    "Listen"
+                    "Listen",
+                    "Send"
                 ]
             },
             "dependsOn": [
